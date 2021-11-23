@@ -5,22 +5,17 @@ import TextField from '@material-ui/core/TextField';
 import { Button } from '@material-ui/core';
 import { getList } from '../../request';
 import { useDispatch } from 'react-redux';
-import { getCityData, setCityLoading } from '../../../../store/dataSourceSlice';
+import { getCityData } from '../../../../store/dataSourceSlice';
+import { useAsync } from '../../../../hooks/useAsync';
 const Index = () => {
   const [inputValue, setInputValue] = useState([]);
-  const [data, setData] = useState([]);
 
+  const { execute, status, value } = useAsync(getList, true);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setTimeout(() => {
-      getList(setData, {});
-    }, 1200);
-  }, []);
-
-  useEffect(() => {
-    dispatch(getCityData(data));
-  }, [data]);
+    dispatch(getCityData({ value, status }));
+  }, [status]);
   return (
     <>
       <Grid container spacing={1}>
@@ -38,10 +33,7 @@ const Index = () => {
             size="small"
             type="submit"
             onClick={() => {
-              // update loading
-              dispatch(setCityLoading(true));
-              getList(
-                setData,
+              execute(
                 inputValue.length > 0
                   ? { province: inputValue, repeat: true }
                   : { repeat: true }

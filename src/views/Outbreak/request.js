@@ -9,14 +9,7 @@ const getChartData = (setChartData, setLoading, queryParams) => {
 };
 
 // 查询图表api
-const getList = (setData, queryParams) => {
-  http.get('/area', { ...queryParams }).then(response => {
-    console.log(
-      `response?.results[0]?.cities || []`,
-      response?.results[0]?.cities || []
-    );
-    return setData(response);
-  });
-};
+const getList = (queryParams, url = '/area') =>
+  http.get(url, { ...queryParams });
 
 export { getList, getChartData };
