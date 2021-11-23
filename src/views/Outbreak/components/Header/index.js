@@ -15,7 +15,7 @@ const Index = () => {
 
   useEffect(() => {
     dispatch(getCityData({ value, status }));
-  }, [status]);
+  }, [value, status]);
   return (
     <>
       <Grid container spacing={1}>

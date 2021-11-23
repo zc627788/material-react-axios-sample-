@@ -45,7 +45,7 @@ const get = (url, params = {}) =>
       })
       .catch(error => {
         // return false; 如果返回false 将不会执行promise finally
-        reject();
+        reject(error);
       });
   });
 export default { get };

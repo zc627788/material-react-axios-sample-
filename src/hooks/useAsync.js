@@ -12,6 +12,7 @@ export const useAsync = (asyncFunction, immediate = true) => {
   const execute = useCallback(
     params => {
       setStatus(true);
+      console.log(`status`);
       setValue(null);
       setError(null);
       return asyncFunction(params)
@@ -20,8 +21,14 @@ export const useAsync = (asyncFunction, immediate = true) => {
           setStatus(false);
         })
         .catch(error => {
+          const a = error?.message?.split(' ') || [];
+          console.log(`aaaaa`, a);
+          setStatus(true);
+          // 重复请求为a.length==1,错误 失败请a.length>1
+          if (a.length > 1) {
+            setStatus(false);
+          }
           setError(error);
-          setStatus(false);
         });
     },
     [asyncFunction]
